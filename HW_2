@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include "Timer.h"
 
 using namespace std;
 
@@ -22,64 +23,94 @@ void SortPointers(vector<T> &vp) {
         });
 };
 
-//int vowel_counter_1 (string& b) {
-//
-//};
+string create_string(const string& path) {
+    string m_book;
+    string vowels = "AaEeIiOoUu";
+    ifstream in(path);
 
+    if (in.is_open()) {
+        stringstream ss;
+        ss << in.rdbuf();
+        m_book = ss.str();
+        in.close();
+        return m_book;
+    }
+    else
+        cout << "Unable to create string." << endl;
+    return "";
+};
 
+bool is_vowel(char c) {
+    if (c == 'A' || c == 'a' || c == 'E' || c == 'e' || c == 'I' || c == 'i'              //создаем функцию-компаратор is_wovel для проверки на гласность.
+                 || c == 'O' || c == 'o' || c == 'U' || c == 'u'  ) return true;
+    else
+        return false;
+};
 
 
 
 
 
 int main()
-{
-    setlocale(LC_CTYPE, "RUSSIAN");
-    string num1 = "тест1";
-    string num2 = "test2";
-    string num3 = "test3";
-    string* p1 = &num1;
-    string* p2 = &num2;
-    string* p3 = &num3;
-
-    cout << "start" << endl;
-
-    cout << *p1 << " " << *p2 << " " << *p3 << endl;
-
-    Swap(p1, p2);
-    Swap(p2, p3);
-
-    cout << "swap" << endl;
-
-    cout << *p1 << " " << *p2 << " " << *p3 << endl;
-
-    vector<string*> str_vec;
-    str_vec.push_back(p1);
-    str_vec.push_back(p2);
-    str_vec.push_back(p3);
-
-    cout << "vector" << endl;
-
-    cout << *str_vec[0] << " " << *str_vec[1] << " " << *str_vec[2] << endl;
-
-    SortPointers(str_vec);
-
-    cout << "sort vector" << endl;
-
-    cout << *str_vec[0] << " " << *str_vec[1] << " " << *str_vec[2] << endl;
-
-    string book;
-    ifstream file("D:\\GB\\C++\\P3\\L2\\WP.txt");
+{  
+    setlocale(LC_ALL, "RUS");
+    string vowels = "AaEeIiOoUu";                                             // Строка с гласными буквами.
+    string book = create_string("D:\\GB\\C++\\P3\\L2\\WP2.txt");              // функция для создаем строки из текстового файла.
+    Timer timer;
+                                                                              
+     // Вариант 1. Алгоритм count_in() в связке с find().
     
-    if (file.is_open()) {
-        stringstream ss;
-        ss << file.rdbuf();
-        book = ss.str();
-        file.close();
+    timer.start("Связка count_in() и find()");
+    cout << "Количество гласных букв: " <<
+        count_if(book.begin(), book.end(), [vowels](const auto& ch) {
+        if (vowels.find(ch) >= 0 && (vowels.find(ch) < vowels.size())) {
+            return true;
+        }
+        else
+            return false;
+            }) << endl;
+    timer.print();
+
+    // Вариант 2. Алгоритм count_in() в связке с for.
+
+    timer.start("Связка count_in() и find()");
+    cout << "Количество гласных букв: " <<
+    count_if(book.begin(), book.end(), [vowels](const auto& ch) {
+        for (int i = 0; i < vowels.size(); ++i) {
+            if (ch == vowels[i]) return true;
+        };
+        return false;
+        }) << endl;
+    timer.print();
+
+    // Вариант 3. Цикл for в связке с find().
+
+    timer.start("Связка цикла for и find()");
+    cout << "Количество гласных букв: ";
+    int vowel_count = 0;
+    for (int i = 0; i < book.size(); i++) {
+        if (vowels.find(book[i]) >= 0 && (vowels.find(book[i]) < vowels.size())) vowel_count++;
     }
-    else 
-        cout << "File is unable." << endl;
+    cout << vowel_count << endl;
+    timer.print();
 
-    cout << book[0] << book[1];
+    // Вариант 4. Цикл for используется дважды.
+
+    timer.start("Цикл for используется дважды()");
+    cout << "Количество гласных букв: ";
+    vowel_count = 0;
+    for (int i = 0; i < book.size(); i++) {
+        for (int j = 0; j < vowels.size(); j++) {
+            if (book[i] == vowels[j]) vowel_count++;
+        };
+    };
+    cout << vowel_count << endl;
+    timer.print();
+
+    // Вариант 5. Использование функции is_vowel().
+
+    timer.start("Функция is_vowel()");
+    cout << "Количество гласных букв: " <<
+        count_if(book.begin(), book.end(), is_vowel) << endl;
+    timer.print();
 }
-
