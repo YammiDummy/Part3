@@ -115,17 +115,16 @@ public:
 };
 
 int main() {
-    // int n;
-    // cout << "Enter a matrix size:" << endl;
-    // cout << "n = ";
-    // cin >> n; //Вводим размерность матрицы
-    //
-    // Matrix mat1(n);
-    //
-    // cout << "Found determinant: " << mat1.findDet() << endl; //Вызываем рекурсивную функцию вычисления определителя матрицы
-    // system("pause");
-    // return 0;
-
+    int n;
+    cout << "Enter a matrix size:" << endl;
+    cout << "n = ";
+    cin >> n; //Вводим размерность матрицы
+    
+    Matrix mat1(n);
+    
+    cout << "Found determinant: " << mat1.findDet() << endl; //Вызываем рекурсивную функцию вычисления определителя матрицы
+    system("pause");
+    
     for (int x : num_range(100, 110)) {};
 }
 
