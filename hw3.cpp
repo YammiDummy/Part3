@@ -115,17 +115,19 @@ public:
 };
 
 int main() {
-    int n;
-    cout << "Enter a matrix size:" << endl;
-    cout << "n = ";
-    cin >> n; //Вводим размерность матрицы
+    //int n;
+    //cout << "Enter a matrix size:" << endl;
+    //cout << "n = ";
+    //cin >> n; //Вводим размерность матрицы
+    //
+    //Matrix mat1(n);
+    //
+    //cout << "Found determinant: " << mat1.findDet() << endl; //Вызываем рекурсивную функцию вычисления определителя матрицы
+    //system("pause");
     
-    Matrix mat1(n);
-    
-    cout << "Found determinant: " << mat1.findDet() << endl; //Вызываем рекурсивную функцию вычисления определителя матрицы
-    system("pause");
-    
-    for (int x : num_range(100, 110)) {};
+    for (int x : num_range(100, 110)) {
+        cout << x << " ";
+    };
 }
 
 //1. Написать функцию, добавляющую в конец списка вещественных чисел элемент, значение которого равно среднему арифметическому всех его элементов.
