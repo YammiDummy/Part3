@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <list>
 #include <algorithm>
 
@@ -13,19 +13,6 @@ void average(list<double>& l) {
     l.push_back(av);
 };
 
-//int main()
-//{
-//    list<double> l1{9, 3,6, 5.6, 1, 4, 3.2 };
-//    auto _begin = l1.begin();
-//    auto _end = l1.end();
-//    average(l1);
-//
-//    for (; _begin != _end; ++_begin) {
-//        cout << *_begin << " ";
-//    };
-//    
-//}
-
 class Matrix {
 private:
     int m_size;
@@ -33,7 +20,7 @@ private:
 public:
 
     Matrix(int size)
-    :m_size(size) {
+        :m_size(size) {
         m_a = new int* [m_size]; //Объявляем двумерный целочисленный динамический массив (матрицу)
         for (int i = 0; i < m_size; i++) {
             m_a[i] = new int[m_size];
@@ -70,7 +57,7 @@ public:
         else {
             int d = 0;
             for (int k = 0; k < size; k++) {
-                int** m = new int* [size  - 1];
+                int** m = new int* [size - 1];
                 for (int i = 0; i < size - 1; i++) {
                     m[i] = new int[size - 1];
                 }
@@ -84,24 +71,62 @@ public:
                     }
                 }
                 d += pow(-1, k + 2) * a[0][k] * rec_func(m, size - 1);
-               clearMemory(m, size - 1); //Освобождаем память, выделенную под алгебраическое дополнение
+                clearMemory(m, size - 1); //Освобождаем память, выделенную под алгебраическое дополнение
             }
             return d; //Возвращаем определитель матрицы
         }
     }
 };
 
+class num_iterator {
+    int i;
+public:
+    explicit num_iterator(int position = 0)
+        :i( position ) {}
+
+    int operator*() const { return i; }
+
+    bool operator != (const num_iterator& other) const {
+        return i != other.i;
+    }
+
+    num_iterator& operator++() {
+        ++i;
+        return *this;
+    }
+};
+
+class num_range {
+private:
+    int m_begin;
+    int m_end;
+
+public:
+    num_range(int begin, int end)
+    :m_begin(begin), m_end(end) {}
+
+    num_iterator begin() { 
+        return num_iterator(m_begin); 
+    }
+
+    num_iterator end() { 
+        return num_iterator(m_end); 
+    }
+};
+
 int main() {
-    int n;
-    cout << "Enter a matrix size:" << endl;
-    cout << "n = ";
-    cin >> n; //Вводим размерность матрицы
+    // int n;
+    // cout << "Enter a matrix size:" << endl;
+    // cout << "n = ";
+    // cin >> n; //Вводим размерность матрицы
+    //
+    // Matrix mat1(n);
+    //
+    // cout << "Found determinant: " << mat1.findDet() << endl; //Вызываем рекурсивную функцию вычисления определителя матрицы
+    // system("pause");
+    // return 0;
 
-    Matrix mat1(n);
-
-    cout << "Found determinant: " << mat1.findDet() << endl; //Вызываем рекурсивную функцию вычисления определителя матрицы
-    system("pause");
-    return 0;
+    for (int x : num_range(100, 110)) {};
 }
 
 //1. Написать функцию, добавляющую в конец списка вещественных чисел элемент, значение которого равно среднему арифметическому всех его элементов.
