@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <deque>
@@ -46,10 +46,7 @@ void generate_vector(vector<T>& v, size_t n) {
 }
 
 void digit_vector(vector<double>& a, vector<int>& d) {
-    transform(a.begin(), a.end(), d.begin(), [](double i) {
-        int x = static_cast<int>(i);
-        return x;
-        });
+    transform(a.begin(), a.end(), back_inserter(d), [](double i) {return i; });
 };
 
 int main()
@@ -62,7 +59,8 @@ int main()
     vector<double> analog;
     vector<int> digit;
     generate_vector(analog, 10);
-    for (int x : analog) {
+    
+    for (double x : analog) {
         cout << x << endl;
     };
 
