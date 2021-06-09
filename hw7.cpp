@@ -107,5 +107,5 @@ public:
 };
 
 int main() {
-    cout << "hui" << endl;
+    cout << "test" << endl;
 }
