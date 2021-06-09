@@ -2,30 +2,7 @@
 #include <fstream>
 #include <optional>
 #include <algorithm>
-#include "car.pb.h"
-
-//School.proto
-//syntax = "proto 3";
-//
-//package school;
-//
-//message FullName {
-//	string name = 1;
-//	string surname = 2;
-//	string patronymic = 3;
-//	}
-//
-//message Student {
-//	FullName full_name = 1;
-//	repeated int32 grades = 2;
-//	int32 average_grade = 3;
-//	}
-//
-//message StudentsGroup {
-//	repeated Student students = 1;
-//	}
-
-
+#include <vector>
 
 using namespace std;
 
@@ -58,7 +35,7 @@ public:
 };
 
 ostream& operator<< (ostream& out, FullName& fn) {
-    out << fn.m_surname << fn.m_name << fn.m_patronymic.value();
+    out << fn.m_surname << " " << fn.m_name << " " << fn.m_patronymic.value();
     return out;
 };
 
@@ -69,6 +46,11 @@ public:
     FullName full_name;
     vector<int> grades; 
 };
+
+ostream& operator<< (ostream& out, Student s) {
+    out << s.full_name << " grades: ";
+    copy(s.grades.begin(), s.grades.end(), ostream_iterator<int>(out, ", "));
+}
 
 class StudentsGroup : public IRepository, IMethods {
 public:
@@ -101,7 +83,9 @@ public:
         };
     };
 
-    string GetAllInfo(const FullName& name){};
+    string GetAllInfo(const FullName& name){
+
+    };
 
     string GetAllInfo() {};
 };
