@@ -3,19 +3,11 @@
 #include <optional>
 #include <algorithm>
 #include <vector>
+#include "car.pb.h"
 
 using namespace std;
 
-class IRepository {
-    virtual void Open() = 0; // бинарная десериализация в файл
-    virtual void Save() = 0; // бинарная сериализация в файл
-};
 
-class IMethods {
-    virtual double GetAverageScore(const FullName& name) = 0;
-    virtual string GetAllInfo(const FullName& name) = 0;
-    virtual string GetAllInfo() = 0;
-};
 
 class FullName {
 public:
@@ -39,8 +31,6 @@ ostream& operator<< (ostream& out, FullName& fn) {
     return out;
 };
 
-pair<int, string> somefunc() {};
-
 class Student {
 public:
     FullName full_name;
@@ -50,13 +40,25 @@ public:
 ostream& operator<< (ostream& out, Student s) {
     out << s.full_name << " grades: ";
     copy(s.grades.begin(), s.grades.end(), ostream_iterator<int>(out, ", "));
-}
+    return out;
+};
+
+class IRepository {
+    virtual void Open() = 0; // бинарная десериализация в файл
+    virtual void Save() = 0; // бинарная сериализация в файл
+};
+
+class IMethods {
+    virtual double GetAverageScore(const FullName& name) = 0;
+    virtual string GetAllInfo(const FullName& name) = 0;
+    virtual string GetAllInfo() = 0;
+};
 
 class StudentsGroup : public IRepository, IMethods {
 public:
     vector<Student> group;
 
-    double GetAverageScore(const FullName& name){
+    double GetAverageScore(const FullName& name) {
         Student temp;
         double av_score;
         int count_check = 0;
@@ -66,7 +68,7 @@ public:
                 temp = student;
             }
         };
-        if (count_check = 0) {
+        if (count_check == 0) {
             cout << "There is no ";
             cout << temp.full_name;
             return 0;
@@ -76,7 +78,7 @@ public:
             cout << temp.full_name;
         }
         else {
-            int sum = 0;
+            double sum = 0;
             for_each(temp.grades.begin(), temp.grades.end(), [&sum](int grade) {sum = +grade; });
             av_score = sum / (temp.grades.size());
             return av_score;
