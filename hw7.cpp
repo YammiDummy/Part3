@@ -41,11 +41,11 @@ class IMethods {
 };
 
 class FullName {
-private:
+public:
     string m_name;
     string m_surname;
-    optional<string> m_patronymic;
-public:
+    optional<string> m_patronymic = nullopt;
+
     FullName(string name, string surname, optional<string> patronymic = nullopt)
         :m_name(name), m_surname(surname), m_patronymic(patronymic) {};
     FullName() {};
@@ -53,27 +53,59 @@ public:
     bool operator== (FullName other) {
         return tie(m_name, m_surname, m_patronymic) == tie(other.m_name, other.m_surname, other.m_patronymic);
     };
+
+    friend ostream& operator<< (ostream& out, FullName& fn);
 };
 
+ostream& operator<< (ostream& out, FullName& fn) {
+    out << fn.m_surname << fn.m_name << fn.m_patronymic.value();
+    return out;
+};
+
+pair<int, string> somefunc() {};
+
 class Student {
-private:
+public:
     FullName full_name;
     vector<int> grades; 
 };
 
 class StudentsGroup : public IRepository, IMethods {
-private:
-    vector<Student> group;
 public:
-    double GetAverageScore(const FullName& name) override{
-        for( Student student : group) {
+    vector<Student> group;
 
+    double GetAverageScore(const FullName& name){
+        Student temp;
+        double av_score;
+        int count_check = 0;
+        for (Student student : group) {
+            if (student.full_name == name) {
+                count_check++;
+                temp = student;
+            }
+        };
+        if (count_check = 0) {
+            cout << "There is no ";
+            cout << temp.full_name;
+            return 0;
         }
+        else if (count_check > 1) {
+            cout << "There is more than 1 of ";
+            cout << temp.full_name;
+        }
+        else {
+            int sum = 0;
+            for_each(temp.grades.begin(), temp.grades.end(), [&sum](int grade) {sum = +grade; });
+            av_score = sum / (temp.grades.size());
+            return av_score;
+        };
     };
-    string GetAllInfo(const FullName& name) override {};
-    string GetAllInfo() override {};
+
+    string GetAllInfo(const FullName& name){};
+
+    string GetAllInfo() {};
 };
 
 int main() {
-
+    cout << "hui" << endl;
 }
