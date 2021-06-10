@@ -3,6 +3,7 @@
 #include <optional>
 #include <algorithm>
 #include <vector>
+#include <ostream>
 #include "car.pb.h"
 
 using namespace std;
@@ -55,6 +56,8 @@ class IMethods {
 };
 
 class StudentsGroup : public IRepository, IMethods {
+private:
+    string path;
 public:
     vector<Student> group;
 
@@ -93,8 +96,12 @@ public:
     }
 
     string GetAllInfo() {
-        for_each(group.begin(), group.end(), [&](Student s) {cout << s; });
+        copy(group.begin(), group.end(), ostream_iterator<Student>{cout, "\n" });
     };
+
+    void Open() override {
+
+    }
 };
 
 int main() {
