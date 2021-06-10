@@ -92,7 +92,9 @@ public:
         );
     }
 
-    string GetAllInfo() {};
+    string GetAllInfo() {
+        for_each(group.begin(), group.end(), [&](Student s) {cout << s; });
+    };
 };
 
 int main() {
