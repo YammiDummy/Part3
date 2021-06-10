@@ -86,8 +86,11 @@ public:
     };
 
     string GetAllInfo(const FullName& name){
-
-    };
+        for_each(group.begin(), group.end(), [&](Student s) {
+            if (s.full_name == name) { cout << s; }
+            }
+        );
+    }
 
     string GetAllInfo() {};
 };
